@@ -46,7 +46,7 @@ namespace ZalakProject.Manager.Buyer
                 .ToListAsync();
 
 
-            return new PaginatedResult<BuyerProductViewModel>
+            return new PaginatedResult<BuyerProductMoreDetails>
 			{
 				Items = products,
 				CurrentPage = pageNumber,
