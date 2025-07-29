@@ -23,6 +23,8 @@ namespace ZalakProject.Models
         public string? PostalCode { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public string? ProfileImageData { get; set; }  // Base64 string
+        public string? ProfileImageName { get; set; }
 
         // Navigation properties
         public virtual ICollection<Product> Products { get; set; } = new List<Product>();

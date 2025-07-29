@@ -30,31 +30,50 @@ namespace ZalakProject.Manager.Buyer
                 query = query.Where(p => p.CategoryId == categoryId);
             }
 
-			int totalRecords = await query.CountAsync();
-			int totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
+            int totalRecords = await query.CountAsync();
+            int totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
 
-            var products = await query
-                .OrderByDescending(p => p.CreatedAt)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .Select(p => new BuyerProductMoreDetails
-				{
-					ProductId = p.Id,
-					ProductName = p.Name,
-					Price = p.Price,
-				})
-                .ToListAsync();
+            var product = await query.OrderByDescending(p => p.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            List<BuyerProductMoreDetails> buyerProductViewModels = new List<BuyerProductMoreDetails>();
+
+            if (product.Any())
+            {
+                foreach (var model in product)
+                {
+                    BuyerProductMoreDetails viewModel = new BuyerProductMoreDetails();
+                    viewModel.ProductId = model.Id;
+                    viewModel.ProductName = model.Name;
+                    viewModel.Price = model.Price;
+                    if (model.ProductImages.Any())
+                    {
+                        foreach (var image in model.ProductImages)
+                        {
+                            viewModel.ProductImages.Add(new ProductImageViewModel
+                            {
+                                Alt = image.Alt,
+                                FileData = image.FileData,
+                                FileName = image.FileName,
+                                Id = image.Id
+                            });
+                        }
+                    }
+                    buyerProductViewModels.Add(viewModel);
+
+                }
+            }
+
+
 
 
             return new PaginatedResult<BuyerProductMoreDetails>
-			{
-				Items = products,
-				CurrentPage = pageNumber,
-				TotalPages = totalPages
-			};
-		}
+            {
+                Items = buyerProductViewModels,
+                CurrentPage = pageNumber,
+                TotalPages = totalPages
+            };
+        }
 
-		public async Task<BuyerProductMoreDetails> ViewMoreDetails(string productId)
+        public async Task<BuyerProductMoreDetails> ViewMoreDetails(string productId)
 		{
 			var productItem = await _productsDao.Include(r => r.Reviews).ThenInclude(u => u.User)
 				.Include(p => p.ProductImages)

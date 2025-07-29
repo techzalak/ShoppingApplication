@@ -31,7 +31,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            var user = await UserManager.GetUserAsync(User);
+                            if (!string.IsNullOrEmpty(user?.ProfileImageData))
+                            {
+                                <img src="data:image/jpeg;base64,@user.ProfileImageData" class="rounded-circle" style="width: 40px; height: 40px;" />
+                            }
+                        }
                         @if (User.IsInRole("Seller"))
                         {
                             <li class="nav-item">

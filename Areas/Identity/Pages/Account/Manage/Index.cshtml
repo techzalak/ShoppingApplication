@@ -9,18 +9,34 @@
 <partial name="_StatusMessage" for="StatusMessage" />
 <div class="row">
     <div class="col-md-6">
-        <form id="profile-form" method="post">
+        <form method="post" enctype="multipart/form-data" id="profile-form">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
-                <label asp-for="Username" class="form-label"></label>
+
+            <div class="mb-3">
+                <label for="ProfileImage" class="form-label">Profile Picture</label>
+                <input asp-for="Input.ProfileImage" type="file" multiple class="form-control" />
+                @* <input type="file" class="form-control" id="ProfileImage" name="ProfileImage" accept="image/*" /> *@
             </div>
+
+            @if (Model.ProfileImageData != null)
+            {
+                <div class="mb-3">
+                    <img src="data:image/jpeg;base64,@Model.ProfileImageData" class="img-thumbnail" style="width: 150px;" />
+                </div>
+            }
+
             <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
+                <input asp-for="Username" class="form-control" disabled />
+                <label asp-for="Username"></label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.PhoneNumber" class="form-control" />
+                <label asp-for="Input.PhoneNumber"></label>
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+
+            <button type="submit" class="btn btn-primary">Save Profile</button>
         </form>
     </div>
 </div>

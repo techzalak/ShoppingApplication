@@ -12,7 +12,7 @@ else
         <table class="table table-hover table-bordered shadow-sm rounded">
             <thead class="table-primary text-center">
                 <tr>
-                    <th>Image</th>
+                   
                     <th>Name</th>
                     <th>Category</th>
                     <th>Price</th>
@@ -25,16 +25,7 @@ else
                 @foreach (var product in Model)
                 {
                     <tr class="align-middle text-center">
-                        <td>
-                            @if (product.ProductImages != null && product.ProductImages.Any())
-                            {
-                                <img src="@product.ProductImages.First().FileName" alt="Product" style="width: 60px; height: 60px; object-fit: cover;" class="rounded" />
-                            }
-                            else
-                            {
-                                <span class="text-muted">No Image</span>
-                            }
-                        </td>
+                        
                         <td class="fw-semibold">@product.ProductName</td>
                         <td><span class="badge bg-secondary">@product.CategoryName</span></td>
                         <td class="text-success fw-bold">@product.Price.ToString("C")</td>

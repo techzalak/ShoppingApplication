@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ZalakProject.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,6 +36,8 @@ namespace ZalakProject.Migrations
                     City = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
                     PostalCode = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ProfileImageData = table.Column<string>(type: "TEXT", nullable: true),
+                    ProfileImageName = table.Column<string>(type: "TEXT", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),

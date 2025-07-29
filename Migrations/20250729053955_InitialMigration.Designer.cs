@@ -11,8 +11,8 @@ using ZalakProject.Data;
 namespace ZalakProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250729042614_Initial")]
-    partial class Initial
+    [Migration("20250729053955_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -217,6 +217,12 @@ namespace ZalakProject.Migrations
 
                     b.Property<string>("PostalCode")
                         .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProfileImageData")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProfileImageName")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SecurityStamp")

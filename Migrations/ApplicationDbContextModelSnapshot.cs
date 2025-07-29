@@ -216,6 +216,12 @@ namespace ZalakProject.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ProfileImageData")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProfileImageName")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
