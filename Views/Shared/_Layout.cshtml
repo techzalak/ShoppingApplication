@@ -39,12 +39,7 @@
                                 <img src="data:image/jpeg;base64,@user.ProfileImageData" class="rounded-circle" style="width: 40px; height: 40px;" />
                             }
                         }
-                        @if (User.IsInRole("Seller"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-controller="Products" asp-action="Index">My Products</a>
-                            </li>
-                        }
+                       
 
                         @if (SignInManager.IsSignedIn(User))
                         {

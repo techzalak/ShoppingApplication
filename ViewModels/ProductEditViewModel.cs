@@ -13,7 +13,7 @@ namespace ZalakProject.ViewModels
         public string Name { get; set; }
 
         [StringLength(1000)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         [Range(0.01, 999999.99)]
@@ -28,7 +28,7 @@ namespace ZalakProject.ViewModels
 
         public List<Category> Categories { get; set; }
 
-        public List<IFormFile> NewImages { get; set; } = new();
+        public List<IFormFile>? NewImages { get; set; } = new();
         public List<ProductImageViewModel> ExistingImages { get; set; } = new();
     }
 }

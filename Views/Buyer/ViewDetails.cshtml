@@ -33,7 +33,7 @@
             @if (Model.ProductImages?.Any() == true)
             {
                 <h4 class="mb-3">Product Images</h4>
-                <div id="productImageCarousel" class="carousel slide mb-4 shadow-sm rounded-4" data-bs-ride="carousel" style="max-width: 100%;">
+                <div id="productImageCarousel" class="carousel slide mb-4 shadow-sm rounded-4" data-bs-ride="carousel" style="width: 400px; height:250px">
                     <div class="carousel-inner">
                         @for (int i = 0; i < Model.ProductImages.Count(); i++)
                         {
@@ -46,12 +46,12 @@
 
                     <!-- Controls -->
                     <button class="carousel-control-prev" type="button" data-bs-target="#productImageCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
+                        <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: black;></span>
+                        <span class="visually-hidden"></span>
                     </button>
                     <button class="carousel-control-next" type="button" data-bs-target="#productImageCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
+                        <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: black;></span>
+                        <span class="visually-hidden"></span>
                     </button>
                 </div>
             }
