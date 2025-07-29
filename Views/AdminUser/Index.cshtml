@@ -1,0 +1,52 @@
+﻿@using ZalakProject.ViewModels
+@model List<UserViewModel>
+
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<h2>Manage Users</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Roles</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+                <td>
+                    @foreach (var role in user.Roles)
+                    {
+                        <span class="badge bg-info">@role</span>
+                    }
+                </td>
+                <td>
+                    @if (user.IsLocked)
+                    {
+                        <span class="text-danger">Locked</span>
+                    }
+                    else
+                    {
+                        <span class="text-success">Active</span>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-primary" asp-action="EditRoles" asp-route-id="@user.Id">Edit Roles</a>
+                    <a class="btn btn-sm btn-warning" asp-action="ToggleLock" asp-route-id="@user.Id">
+                        @(user.IsLocked ? "Unlock" : "Lock")
+                    </a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@user.Id" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

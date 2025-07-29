@@ -1,0 +1,61 @@
+﻿@using ZalakProject.ViewModels
+@model PaginatedResult<BuyerProductMoreDetails>
+
+@{
+    ViewBag.Title = "Buyer Dashboard";
+}
+
+<h2 class="mb-4 text-center">All Products</h2>
+<div class="container mt-4">
+    <!-- Category Filter -->
+    @* <form asp-action="FilterByCategory" method="get" class="mb-4">
+        <div class="row align-items-center">
+            <div style="position: relative; z-index: 100;">
+                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories" onchange="this.form.submit()">
+                    <option value="">-- Select Category --</option>
+                </select>
+            </div>
+        </div>
+    </form> *@
+</div>
+<div class="row">
+    @foreach (var product in Model.Items)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="data:image/png;base64,@product.ProductImages.FirstOrDefault()" class="card-img-top" style="height: 200px; object-fit: cover;" alt="@product.ProductName" />
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <h5 class="card-title">@product.ProductName</h5>
+                    <p class="card-text text-success fw-bold">₹@product.Price</p>
+                    <div class="mt-auto d-flex justify-content-between">
+                        <a asp-action="ViewDetails", asp-route-productId = "@product.ProductId" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i> View Details
+                        </a>
+                        <form asp-action="AddToCart" asp-controller="Cart" method="post" style="display:inline;">
+                            <input type="hidden" name="productId" value="@product.ProductId" />
+                            <button type="submit" class="btn btn-sm btn-success">
+                                <i class="bi bi-cart-plus"></i> Add to Cart
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Pagination -->
+@if (Model.TotalPages > 1)
+{
+    <nav aria-label="Product pagination">
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                    <a class="page-link" asp-action="Dashboard" asp-route-pageNumber = "@i">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

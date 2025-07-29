@@ -1,0 +1,197 @@
+﻿@model ZalakProject.ViewModels.BuyerProductMoreDetails
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- LEFT SIDE: Details + Reviews (40%) -->
+        <div class="col-md-5">
+            <h2>@Model.ProductName</h2>
+            <p><strong>Price:</strong> ₹@Model.Price</p>
+            <p><strong>Description:</strong> @Model.Description</p>
+            <p><strong>Stock:</strong> @Model.StockQuantity</p>
+
+            <hr />
+
+            <!-- Reviews Section -->
+            <h5 class="mt-4">Customer Reviews</h5>
+            @if (@Model.reviews?.Any() == true)
+            {
+                @foreach (var review in @Model.reviews)
+                {
+                    <div class="border rounded-3 p-2 mb-3 shadow-sm bg-light">
+                        <strong>@review.User.Email</strong> - @review.Rating/5 ⭐
+                        <p class="mb-1">@review.Comment</p>
+                        <small class="text-muted">@review.CreatedAt.ToShortDateString()</small>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No reviews yet.</p>
+            }
+        </div>
+
+        <!-- RIGHT SIDE: Images + Add to Cart (60%) -->
+        <div class="col-md-7">
+            @if (Model.ProductImages?.Any() == true)
+            {
+                <h4 class="mb-3">Product Images</h4>
+                <div id="productImageCarousel" class="carousel slide mb-4 shadow-sm rounded-4" data-bs-ride="carousel" style="max-width: 100%;">
+                    <div class="carousel-inner">
+                        @for (int i = 0; i < Model.ProductImages.Count(); i++)
+                        {
+                            var img = Model.ProductImages.ElementAt(i);
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <img src="data:image/jpeg;base64,@img.FileData" class="img-thumbnail mb-2" style="height: 150px;" alt="@img.Alt" />
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Controls -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productImageCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#productImageCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <p>No images available</p>
+            }
+
+            <!-- Add to Cart -->
+            <form asp-action="AddToCart" method="post" class="d-flex align-items-center">
+                <input type="hidden" name="productId" value="@Model.ProductId" />
+                <input type="hidden" name="SellerId" value="@Model.SellerId" />
+                <input type="hidden" name="Price" value="@Model.Price" />
+                <input type="hidden" name="ProductName" value="@Model.ProductName" />
+                <div class="input-group" style="max-width: 200px;">
+                    <input type="number" name="quantity" value="1" class="form-control" min="1" />
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-cart-plus"></i>Add to Cart</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="card shadow-sm rounded-4 p-4">
+    <h4 class="mb-4 text-primary">Write a Review</h4>
+
+    <form asp-action="PostReview" method="post">
+        @* <input type="hidden" name="ProductId" value="@Model.ProductId" /> *@
+        <input asp-for="ProductId" type="hidden" />
+
+        <div class="mb-3">
+            <label for="Comment" class="form-label">Your Comment</label>
+            <textarea name="Comment" class="form-control" rows="3" placeholder="Write your review..." required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="Rating" class="form-label">Rating (1-5)</label>
+            <input type="number" name="Rating" class="form-control w-50" min="1" max="5" placeholder="Enter rating" required />
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-chat-dots"></i> Submit Review
+        </button>
+    </form>
+</div>
+@* <div class="container mt-4">
+    <div class="row align-items-start">
+        <!-- Product Info (Left Column) -->
+        <div class="col-md-6">
+            <h2>@Model.ProductName</h2>
+            <p><strong>Price:</strong> ₹@Model.Price</p>
+            <p><strong>Description:</strong> @Model.Description</p>
+            <p><strong>Stock:</strong> @Model.StockQuantity</p>
+        </div>
+
+        <!-- Image Carousel (Right Column) -->
+        <div class="col-md-6">
+            @if (Model.ProductImages?.Any() == true)
+            {
+                <h4 class="mb-3">Product Images</h4>
+                <div id="productImageCarousel" class="carousel slide shadow-sm rounded-4" data-bs-ride="carousel" style="max-width: 100%;">
+                    <div class="carousel-inner">
+                        @for (int i = 0; i < Model.ProductImages.Count(); i++)
+                        {
+                            var img = Model.ProductImages.ElementAt(i);
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <img src="@img.ImagePath" class="d-block w-100 rounded-4" style="height: 300px; object-fit: cover;" alt="Product Image @(i + 1)" />
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Controls -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productImageCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#productImageCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <p>No images available</p>
+            }
+        </div>
+    </div>
+</div>
+
+@if (Model.reviews?.Any() == true)
+{
+    <h4>Reviews</h4>
+    <ul>
+        @foreach (var review in Model.reviews)
+        {
+            <li>
+                <strong>@review.User.Email</strong>: @review.Comment (Rating: @review.Rating)
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No reviews yet</p>
+}
+<div class="row mt-5">
+    <!-- Review Form -->
+    <div class="col-md-6">
+        <div class="card shadow-sm rounded-4 p-4">
+            <h4 class="mb-4 text-primary">Write a Review</h4>
+
+            <form asp-action="PostReview" method="post">
+                <input type="hidden" name="ProductId" value="@Model.ProductId" />
+
+                <div class="mb-3">
+                    <label for="Comment" class="form-label">Your Comment</label>
+                    <textarea name="Comment" class="form-control" rows="3" placeholder="Write your review..." required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="Rating" class="form-label">Rating (1-5)</label>
+                    <input type="number" name="Rating" class="form-control w-50" min="1" max="5" placeholder="Enter rating" required />
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-chat-dots"></i> Submit Review
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add to Cart -->
+    <div class="col-md-6 d-flex align-items-center justify-content-center">
+        <form asp-action="AddToCart" method="post">
+            <input type="hidden" name="ProductId" value="@Model.ProductId" />
+            <button type="submit" class="btn btn-warning btn-lg px-4 py-2 shadow">
+                <i class="bi bi-cart-plus"></i> Add to Cart
+            </button>
+        </form>
+    </div>
+</div> *@
